@@ -17,7 +17,8 @@ typedef enum {
    INA219_FMC1 = 0x80,
    INA219_FMC2 = 0x82,
    PCA9555_0   = 0x40,
-   PCA9555_1   = 0x42
+   PCA9555_1   = 0x42,
+   SI570       = 0xAA
 } I2C_APP_BUS;
 
 #define I2C_APP_NUM 5
@@ -114,11 +115,26 @@ typedef enum {
 #define ADN4600_OUT_CFG_0 2   // input 2 connected to output 0
 #define ADN4600_OUT_CFG_1 3   // input 3 connected to output 1
 #define ADN4600_OUT_CFG_4 4   // input 4 connected to output 4
-#define ADN4600_OUT_CFG_5 6   // input 6 connected to output 6
+#define ADN4600_OUT_CFG_5 6   // input 6 connected to output 5
 
 #define ADN4600_XPT_Conf    (0x40)
 #define ADN4600_XPT_Update  (0x41)
 #define ADN4600_XPT_Status0 (0x50)
 #define ADN4600_RX0_Config  (0x80)
+
+//--------------------------------------------------
+// Some bit definition of the Silabs 570
+//--------------------------------------------------
+// REG_OFFS = 0x07 for all Si571 and Si570 with 20 ppm and 50 ppm temp. stab.
+// REG_OFFS = 0x0D for Si570 with 7 ppm temp. stab.
+#define REG_OFFS        0x0D
+#define CTRL_REG        135
+#define SI570_RST_REG      (1<<7)
+#define SI570_NEW_FREQ     (1<<6)
+#define SI570_FREEZE_M     (1<<5)
+#define SI570_FREEZE_VCADC (1<<4)
+#define SI570_RECALL       (1<<0)
+#define FREEZE_DCO_REG     137
+#define SI570_FREEZE_DCO   (1<<4)
 
 #endif /* I2C_FPGA_H_ */
