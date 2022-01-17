@@ -7,6 +7,13 @@
 #include "phy_mdio.h"
 #include "rev.h"
 
+// Instantiate global variables
+I2C_BUS I2C_PM;
+I2C_BUS I2C_IPMB;
+I2C_BUS I2C_FPGA;
+SSP_PORT SSP_FPGA;
+SSP_PORT SSP_PMOD;
+
 // Setup UART strings
 #ifdef MARBLEM_V1
 const char demo_str[] = "Marble Mini v1 UART DEMO\r\n";

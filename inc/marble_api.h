@@ -79,8 +79,10 @@ void reset_fpga(void);
 * SPI/SSP
 ****/
 typedef void *SSP_PORT;
-SSP_PORT SSP_FPGA;
-SSP_PORT SSP_PMOD;
+
+// global variables
+extern SSP_PORT SSP_FPGA;
+extern SSP_PORT SSP_PMOD;
 
 int marble_SSP_write16(SSP_PORT ssp, uint16_t *buffer, unsigned size);
 int marble_SSP_read16(SSP_PORT ssp, uint16_t *buffer, unsigned size);
@@ -110,9 +112,11 @@ typedef void *I2C_BUS;
 #else
 #error Marble microcontroller API not defined!
 #endif
-I2C_BUS I2C_PM;
-I2C_BUS I2C_IPMB;
-I2C_BUS I2C_FPGA;
+
+// global variables
+extern I2C_BUS I2C_PM;
+extern I2C_BUS I2C_IPMB;
+extern I2C_BUS I2C_FPGA;
 
 int marble_I2C_probe(I2C_BUS I2C_bus, uint8_t addr);
 int marble_I2C_send(I2C_BUS I2C_bus, uint8_t addr, const uint8_t *data, int size);
