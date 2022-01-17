@@ -46,7 +46,12 @@ const char menu_str[] = "\r\n"
 	"g) XRP7724 go\r\n"
 	"h) XRP7724 hex input\r\n"
 	"i) timer check/cal\r\n"
-	"j) Read SPI mailbox\r\n";
+	"j) Read SPI mailbox\r\n"
+#ifdef MARBLE_V2
+   "k) Read Si570 registers\r\n"
+   "l) write Si570 registers\r\n"
+#endif
+   ;
 
 const char unk_str[] = "> Unknown option\r\n";
 
@@ -297,6 +302,14 @@ static console_state_e console_top(char rx_ch)
          case 'j':
             mbox_peek();
             break;
+#ifdef MARBLE_V2
+         case 'k':
+            readSi570Regs();
+            break;
+         case 'l':
+            writeSi570Regs();
+            break;
+#endif
          default:
             printf(unk_str);
             break;
@@ -340,6 +353,9 @@ int main(void)
 #ifdef MARBLE_V2
    // Enable MGT clock cross-point switch if 3.3V rail is ON
    mgtclk_xpoint_en();
+
+   // Set Si570 inital frequency
+   writeSi570Regs();
 #endif
 
    // Power FMCs

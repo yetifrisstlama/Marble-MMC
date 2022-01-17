@@ -123,11 +123,30 @@ typedef enum {
 #define ADN4600_RX0_Config  (0x80)
 
 //--------------------------------------------------
-// Some bit definition of the Silabs 570
+// Si570
 //--------------------------------------------------
+// prints all 6 Si570 registers
+// Returns 0 when everything went okay
+int readSi570Regs(void);
+
+// Rewrite all registers of Si570. Takes care of freezing the DCO as well.
+// Returns 0 when everything went okay
+int writeSi570Regs(void);
+
+// Config vector which is written on power-up.
+// the part number on my Marble board: 570BBC000121DG
+// initial config: 07 c2 c0 00 00 00  (100.00 MHz)
+// new config:     A0 C3 13 80 CE B8  (156.25 MHz)
+// For a different initial frequency, see:
+// https://github.com/yetifrisstlama/Si5xx-5x7-EVV_autoloader/blob/60435e8d7cc441b68c5e45fbcef4ff3e1cb68486/Si570.py#L112
+#define SI570_CONFIG {0xA0, 0xC3, 0x13, 0x80, 0xCE, 0xB8}
+
+// Description-string of the config vector
+#define SI570_CONFIG_STR "156.25 MHz"
+
 // REG_OFFS = 0x07 for all Si571 and Si570 with 20 ppm and 50 ppm temp. stab.
 // REG_OFFS = 0x0D for Si570 with 7 ppm temp. stab.
-#define REG_OFFS        0x0D
+#define REG_OFFS        0x07
 #define CTRL_REG        135
 #define SI570_RST_REG      (1<<7)
 #define SI570_NEW_FREQ     (1<<6)

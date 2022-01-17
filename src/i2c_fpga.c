@@ -342,15 +342,17 @@ void adn4600_printStatus()
 // Rewrite all registers of Si570. Takes care of freezing the DCO as well.
 // *buf must be a 6 byte array.
 // Returns 0 when everything went okay
-int writeSi570Regs(uint8_t *buf)
+int writeSi570Regs()
 {
+    uint8_t buf[6] = SI570_CONFIG;
+
     switch_i2c_bus(6);  // APP port
 
     int ret = 0;
     uint8_t tmp;
 
     //Freeze the DCO
-    tmp = SI570_FREEZE_DCO
+    tmp = SI570_FREEZE_DCO;
     ret |= marble_I2C_cmdsend(I2C_FPGA, SI570, FREEZE_DCO_REG, &tmp, 1);
 
     //Write all 6 registers
@@ -366,8 +368,8 @@ int writeSi570Regs(uint8_t *buf)
 
     printf("Si570 w: ");
     for (unsigned i=0; i<=5; i++)
-        printf("%02x", buf[i]);
-    printf(" ret: %x\r\n", ret);
+        printf("%02x ", buf[i]);
+    printf(" ret: %x (" SI570_CONFIG_STR ")\r\n", ret);
 
     // TODO enable Si570 OE on U39
     return ret;
@@ -375,15 +377,16 @@ int writeSi570Regs(uint8_t *buf)
 
 // reads all Si570 registers into buf, which needs to provide space for 6 bytes
 // Returns 0 when everything went okay
-int readSi570Regs(uint8_t *buf)
+int readSi570Regs()
 {
+    uint8_t buf[6];
     switch_i2c_bus(6);  // APP port
     int ret = 0;
-    ret = marble_I2C_cmdrecv(I2C_FPGA, SI570, REG_OFFS, buf, 6)
+    ret = marble_I2C_cmdrecv(I2C_FPGA, SI570, REG_OFFS, buf, 6);
 
     printf("Si570 r: ");
     for (unsigned i=0; i<=5; i++)
-        printf("%02x", buf[i]);
+        printf("%02x ", buf[i]);
     printf(" ret: %x\r\n", ret);
 
     return ret;
