@@ -385,9 +385,13 @@ int readSi570Regs()
     ret = marble_I2C_cmdrecv(I2C_FPGA, SI570, REG_OFFS, buf, 6);
 
     printf("Si570 r: ");
-    for (unsigned i=0; i<=5; i++)
-        printf("%02x ", buf[i]);
-    printf(" ret: %x\r\n", ret);
+    if (ret > 0) {
+      printf("error ");
+    } else {
+       for (unsigned i=0; i<=5; i++)
+           printf("%02x ", buf[i]);
+    }
+    printf("ret: %x\r\n", ret);
 
     return ret;
 }
